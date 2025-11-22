@@ -2,7 +2,13 @@
 
 FROM node:lts-alpine
 WORKDIR /app
-COPY . .
+
+# Copy package files first
+COPY package*.json yarn.lock ./
 RUN yarn install --production
-CMD ["node", "src/index.js"]
+
+# Copy only source code
+COPY src/ ./src/
+
 EXPOSE 3000
+CMD ["node", "src/index.js"]
